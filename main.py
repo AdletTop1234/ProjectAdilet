@@ -1,5 +1,9 @@
 import asyncio
 import json
+import os
+
+os.environ.pop("SSLKEYLOGFILE", None)
+
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from api_client import get_pokemon_data
@@ -27,10 +31,16 @@ async def send_pokemon(message: types.Message):
         await message.answer("❌ Такого покемона нет.")
         return
 
+    evo_lines = []
+    for stage in pokemon.evolution_chain:
+        types_str = ", ".join(stage['types'])
+        evo_lines.append(f"• *{stage['name']}* ({types_str})")
+    evo_chain_text = "\n⬇️\n".join(evo_lines)
+
     caption = (
         f"👾 **{pokemon.name}**\n"
-        f"🏠 Среда обитания: {pokemon.habitat}\n"
-        f"🔝 Эволюция: {pokemon.next_evo}\n\n"
+        f"🏠 Среда обитания: {pokemon.habitat}\n\n"
+        f"🧬 **Цепочка эволюции:**\n{evo_chain_text}\n\n"
         f"{pokemon.description}"
     )
 

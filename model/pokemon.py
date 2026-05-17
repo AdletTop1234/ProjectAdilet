@@ -10,7 +10,6 @@ class Pokemon:
 
         evo_info = evo_data.get('chain')
         evolves_to = evo_info['evolves_to'] if evo_info else []
-        self.next_evo = evolves_to[0]['species']['name'] if evolves_to else "Final Form"
 
         self.description = "Description is not found"
         entries = species_data.get('flavor_text_entries', [])

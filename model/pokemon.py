@@ -1,5 +1,5 @@
 class Pokemon:
-    def __init__(self, basic_data, species_data, evo_data):
+    def __init__(self, basic_data, species_data, evolution_chain):
         self.name = basic_data['name'].upper()
         self.image_url = basic_data['sprites']['other']['official-artwork']['front_default']
 
@@ -8,8 +8,7 @@ class Pokemon:
         habitat_info = species_data.get('habitat')
         self.habitat = habitat_info['name'] if habitat_info else "Unknown"
 
-        evo_info = evo_data.get('chain')
-        evolves_to = evo_info['evolves_to'] if evo_info else []
+        self.evolution_chain = evolution_chain
 
         self.description = "Description is not found"
         entries = species_data.get('flavor_text_entries', [])
@@ -19,7 +18,7 @@ class Pokemon:
                 break
 
 class LegendaryPokemon(Pokemon):
-    def __init__(self, basic_data, species_data, evo_data):
-        super().__init__(basic_data, species_data, evo_data)
+    def __init__(self, basic_data, species_data, evolution_chain):
+        super().__init__(basic_data, species_data, evolution_chain)
 
         self.description = f" LEGENDARY \n{self.description}"

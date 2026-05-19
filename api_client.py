@@ -1,7 +1,7 @@
 import httpx
 from model.pokemon import Pokemon, LegendaryPokemon
 
-async def get_pokemon_data(name: str):
+async def get_pokemon_data(name_or_id: str | int):
     async def _fetch_chain_recursive(client: httpx.AsyncClient, node: dict) -> list:
         name = node['species']['name']
         resp = await client.get(f"https://pokeapi.co/api/v2/pokemon/{name}")
@@ -13,7 +13,7 @@ async def get_pokemon_data(name: str):
         return chain
 
     async with httpx.AsyncClient() as client:
-        resp = await client.get(f"https://pokeapi.co/api/v2/pokemon/{name.lower()}")
+        resp = await client.get(f"https://pokeapi.co/api/v2/pokemon/{str(name_or_id).lower()}")
         if resp.status_code != 200:
             return None
         basic_data = resp.json()

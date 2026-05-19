@@ -1,5 +1,6 @@
 class Pokemon:
     def __init__(self, basic_data, species_data, evolution_chain):
+        self.id = basic_data['id']
         self.name = basic_data['name'].upper()
         self.image_url = basic_data['sprites']['other']['official-artwork']['front_default']
 
